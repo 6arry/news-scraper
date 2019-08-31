@@ -13,6 +13,9 @@ const app = express();
 // Setup an Express Router
 const router = express.Router();
 
+// Require our routes file pass our router object
+require("./config/routes")(router);
+
 // Designate our public folder as a static directory
 app.use(express.static(__dirname+'/public'));
 
@@ -31,7 +34,9 @@ app.use(express.urlencoded({
 app.use(router);
 
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
-const db = process.env.MONGODB_URI || "mongodb://"+process.env.username+":"+process.env.password+"@ds045454.mlab.com:45454/heroku_87dkbzqx";
+const db = process.env.MONGODB_URI 
+        || "mongodb://"+process.env.username+":"+process.env.password+"@ds045454.mlab.com:45454/heroku_87dkbzqx"
+        || "mongodb://localhost/mongoHeadlines";
 
 // Connect mongoose to our database
 mongoose.connect(db, function(error){
